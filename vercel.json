@@ -5,11 +5,5 @@
         "src": "index.js",
         "use": "@now/node"
       }
-    ],
-    "functions": {
-        "index.js": {
-            "memory": 512,
-            "maxDuration": 10
-        }
-    }
+    ]
   }
