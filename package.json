@@ -1,0 +1,27 @@
+{
+    "name": "http-status",
+    "version": "0.0.1",
+    "description": "generate different HTTP status codes for your test workflow.",
+    "main": "index.js",
+    "type": "module",
+    "author": "@nwaughachukwuma",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "node --watch index.js",
+        "start": "node index.js"
+      },
+      "files": [
+        "index.js"
+      ],
+    "keywords": [
+        "http",
+        "http statuses",
+        "http status codes"
+    ],
+    "dependencies": {
+        "json-server": "^0.17.4"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}
