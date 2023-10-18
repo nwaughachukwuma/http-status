@@ -1,7 +1,7 @@
 import jsonServer from "json-server";
 
 const server = jsonServer.create();
-const router = jsonServer.router("../db.json");
+const router = jsonServer.router("db.json");
 const middleware = jsonServer.defaults();
 
 const PORT = process.env.PORT || 3000;
@@ -13,7 +13,7 @@ router.render = (req, res) => {
   const code = req.path.match(/^\/(\d+)/)?.[1];
 
   if (!code) {
-    res.status(400).jsonp("Bad Request. Use '/api/{status_code}'");
+    res.status(400).jsonp("Bad Request. Use '/{status_code}'");
   } else if (!code.match(/^(\d{3})$/)) {
     res.status(406).jsonp("Not Acceptable");
   } else if (!router.db.get(code).value()) {
