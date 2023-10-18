@@ -1,8 +1,12 @@
-import jsonServer from "json-server";
+const jsonServer = require("json-server");
+const path = require("node:path");
 
 const server = jsonServer.create();
-const router = jsonServer.router("db.json");
-const middleware = jsonServer.defaults();
+const router = jsonServer.router(path.join(__dirname, "db.json"));
+// const router = jsonServer.router(require("../db.json"));
+const middleware = jsonServer.defaults({
+  readOnly: true,
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -13,7 +17,7 @@ router.render = (req, res) => {
   const code = req.path.match(/^\/(\d+)/)?.[1];
 
   if (!code) {
-    res.status(400).jsonp("Bad Request. Use '/api/{status_code}'");
+    res.status(400).jsonp("Bad Request. Use '/{status_code}'");
   } else if (!code.match(/^(\d{3})$/)) {
     res.status(406).jsonp("Not Acceptable");
   } else if (!router.db.get(code).value()) {
@@ -23,7 +27,11 @@ router.render = (req, res) => {
   }
 };
 
-server.get("/", (_req, res) => res.jsonp(router.db.value()));
+server.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
+
+server.get("/codes", (_req, res) => res.jsonp(router.db.value()));
 server.use(router);
 server.listen(PORT, () => {
   console.info(`Port:${PORT}`);
