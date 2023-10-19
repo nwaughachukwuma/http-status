@@ -25,8 +25,8 @@ router.render = (req, res) => {
 
 server.get("/", (_req, res) => res.jsonp(router.db.value()));
 server.use(router);
-// server.listen(PORT, () => {
-//   console.info(`Port:${PORT}`);
-// });
+server.listen(PORT, () => {
+  console.info(`Port:${PORT}`);
+});
 
 export default server;
