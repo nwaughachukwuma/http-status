@@ -1,4 +1,3 @@
 fastapi
-json-server-py
 pydantic
 uvicorn
