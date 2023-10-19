@@ -15,6 +15,7 @@
     }
   ],
   "routes": [
+    { "src": "/docs", "dest": "index_fastapi.py" },
     { "src": "/(.*)", "dest": "index.js" }
   ] 
 }
