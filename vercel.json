@@ -6,11 +6,11 @@
         "use": "@vercel/node"
       },
       {
-        "src": "index.fastapi.py",
+        "src": "index_fastapi.py",
         "use": "@vercel/python"
       }
     ],
     "routes": [
-      { "src": "/(.*)", "dest": "index.fastapi.py" }
+      { "src": "/(.*)", "dest": "index_fastapi.py" }
     ] 
   }
