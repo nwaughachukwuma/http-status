@@ -2,11 +2,11 @@
     "version": 2,
     "builds": [
       {
-        "src": "index_fastapi.py",
+        "src": "index_flask.py",
         "use": "@vercel/python"
       }
     ],
     "routes": [
-      { "src": "/(.*)", "dest": "index_fastapi.py" }
+      { "src": "/(.*)", "dest": "index_flask.py" }
     ] 
   }
