@@ -15,8 +15,8 @@
     }
   ],
   "routes": [
-    { "src": "/fastapi/(.*)", "dest": "index_fastapi.py" },
-    { "src": "/flask/(.*)", "dest": "index_flask.py" },
+    { "src": "/fastapi/?(.*)", "dest": "index_fastapi.py" },
+    { "src": "/flask/?(.*)", "dest": "index_flask.py" },
     { "src": "/(.*)", "dest": "index.js" }
   ] 
 }
