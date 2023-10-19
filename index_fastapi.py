@@ -23,14 +23,15 @@ def custom_make_response(content: str, code: int):
         headers={"Cache-Control": "public, max-age=604800, immutable"}
     )
 
-@app.get("/", include_in_schema=False, response_class=HTMLResponse)
+# response_class=HTMLResponse
+@app.get("/", include_in_schema=False)
 async def root():
     """
     Root.
     """
     with open("public/index.html", "r", encoding="utf-8") as content:
         content = content.read()
-    return HTMLResponse(content=content)
+    return content
 
 @app.get("/favicon.{ext}", include_in_schema=False, response_class=HTMLResponse)
 async def favicon(ext: str):
