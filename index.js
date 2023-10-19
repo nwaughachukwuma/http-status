@@ -15,7 +15,6 @@ server.use(middleware);
 router.render = (req, res) => {
   const code = req.path.match(/^\/(\d+)/)?.[1];
 
-  // add a cache header of 7 days
   res.set("Cache-Control", "public, max-age=604800, immutable");
 
   if (!code) {
