@@ -4,7 +4,7 @@ import re
 
 import uvicorn
 from fastapi import FastAPI, status
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from pydantic import BaseModel
 
 app = FastAPI(title="HTTP Status Codes", redoc_url=None)
@@ -19,7 +19,7 @@ async def root():
     """
     Root.
     """
-    return FileResponse("public/index.html")
+    return HTMLResponse(content=open("public/index.html", "r", encoding="utf-8").read())
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
