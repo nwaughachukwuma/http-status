@@ -12,9 +12,13 @@
     {
       "src": "index_flask.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "main.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "index_fastapi.py" }
+    { "src": "/(.*)", "dest": "main.py" }
   ] 
 }
