@@ -14,7 +14,7 @@ with open("db.json", encoding="utf-8") as f:
     status_codes = json.load(f)
 
 
-def custom_make_response(content: str, code: str | int):
+def custom_make_response(content: str, code: int):
     """
     Custom make response.
     """
