@@ -27,10 +27,8 @@ router.render = (req, res) => {
   }
 };
 
-server.get("/", (_req, res) => res.jsonp(router.db.value()));
+server.get("/codes", (_req, res) => res.jsonp(router.db.value()));
 server.use(router);
 server.listen(PORT, () => {
   console.info(`Port:${PORT}`);
 });
-
-// module.exports = server;
