@@ -2,11 +2,11 @@
     "name": "http-status",
     "version": "0.0.1",
     "description": "generate different HTTP status codes for your test workflow.",
-    "main": "index.js",
+    "main": "api/index.js",
     "author": "@nwaughachukwuma",
     "scripts": {
-        "dev": "node --watch index.js",
-        "start": "node index.js"
+        "dev": "node --watch api/index.js",
+        "start": "node api/index.js"
       },
     "keywords": [
         "http",
