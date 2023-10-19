@@ -28,7 +28,8 @@ async def favicon(ext: str):
     """
     favicon.ico
     """
-    return FileResponse(f"public/favicon.{ext}")
+    print(f'favicon.{ext}')
+    return FileResponse("public/favicon.ico")
 
 @app.get("/favicon-{size}.png", include_in_schema=False)
 async def faviconpng(size: str):
