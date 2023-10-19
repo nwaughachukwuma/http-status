@@ -58,4 +58,5 @@ async def invalid_code():
 
 if __name__ == "__main__":
     PORT = os.getenv("PORT", "8080")
-    app.run(host="0.0.0.0", port=int(PORT))
+    HOST = os.getenv("HOST", "0.0.0.0")
+    app.run(host=HOST, port=int(PORT))

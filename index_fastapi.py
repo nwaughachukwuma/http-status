@@ -74,4 +74,5 @@ async def invalid_code():
 
 if __name__ == "__main__":
     PORT = os.getenv("PORT", "8080")
-    uvicorn.run(app, port=int(PORT))
+    HOST = os.getenv("HOST", "0.0.0.0")
+    uvicorn.run(app, host=HOST, port=int(PORT))
