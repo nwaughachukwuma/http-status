@@ -26,13 +26,19 @@ def custom_make_response(content: str, code: int):
     )
 
 @app.get("/", include_in_schema=False)
-async def root():
+async def home():
     """
     Root.
     """
     with open("public/index.html", "r", encoding="utf-8") as content:
         content = content.read()
-    return HTMLResponse(content)
+    return HTMLResponse(
+        content,
+        headers={
+            "Cache-Control": "no-cache", 
+            "Content-Type": "text/html",
+        }
+    )
 
 @app.get("/favicon.{ext}", include_in_schema=False, response_class=HTMLResponse)
 async def favicon(ext: str):
