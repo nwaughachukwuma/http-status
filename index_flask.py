@@ -19,14 +19,14 @@ def custom_make_response(content: str, code: int):
     response.headers['Cache-Control'] = 'public, max-age=604800, immutable'
     return response
 
-@app.route("/")
+@app.route("/flask")
 def home():
     """
     Home.
     """
     return render_template('index.html')
 
-@app.route("/favicon.<ext>")
+@app.route("/flask/favicon.<ext>")
 def favicon(ext):
     """
     favicon.ico
@@ -34,7 +34,7 @@ def favicon(ext):
     print(f'favicon.{ext}')
     return send_file("public/favicon.ico")
 
-@app.get("/favicon-<size>.png")
+@app.route("/flask/favicon-<size>.png")
 def faviconpng(size):
     """
     favicon-{size}.png
@@ -42,14 +42,14 @@ def faviconpng(size):
     return send_file(f"public/favicon-{size}.png")
 
 
-@app.route("/codes")
+@app.route("/flask/codes")
 def get_codes():
     """
     Get all status codes.
     """
     return custom_make_response(status_codes, 200)
 
-@app.route("/<int:code>")
+@app.route("/flask/<int:code>")
 def get_status(code):
     """
     Get status code by code.
@@ -66,7 +66,7 @@ def get_status(code):
     return custom_make_response(content, int(code))
 
 
-@app.route("/<_any>/<_path>")
+@app.route("/flask/<_any>/<_path>")
 def invalid_code(_any, _path):
     """
     Invalid code.

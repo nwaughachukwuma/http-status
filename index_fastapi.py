@@ -23,7 +23,7 @@ def custom_make_response(content: str, code: int):
         headers={"Cache-Control": "public, max-age=604800, immutable"}
     )
 
-@app.get("/", include_in_schema=False)
+@app.get("/fastapi", include_in_schema=False)
 async def home():
     """
     Root.
@@ -32,7 +32,7 @@ async def home():
         content = content.read()
     return HTMLResponse(content)
 
-@app.get("/favicon.{ext}", include_in_schema=False, response_class=HTMLResponse)
+@app.get("/fastapi/favicon.{ext}", include_in_schema=False, response_class=HTMLResponse)
 async def favicon(ext: str):
     """
     favicon.ico
@@ -40,7 +40,7 @@ async def favicon(ext: str):
     print(f'favicon.{ext}')
     return FileResponse("public/favicon.ico")
 
-@app.get("/favicon-{size}.png", include_in_schema=False, response_class=HTMLResponse)
+@app.get("/fastapi/favicon-{size}.png", include_in_schema=False, response_class=HTMLResponse)
 async def faviconpng(size: str):
     """
     favicon-{size}.png
@@ -48,7 +48,7 @@ async def faviconpng(size: str):
     return FileResponse(f"public/favicon-{size}.png")
 
 
-@app.get("/codes", summary="Get all status codes.")
+@app.get("/fastapi/codes", summary="Get all status codes.")
 async def get_codes():
     """
     Get all status codes.
@@ -61,7 +61,7 @@ class StatusCode(BaseModel):
     """
     code: int
 
-@app.get("/{code}", response_model=StatusCode, summary="Get a status code.")
+@app.get("/fastapi/{code}", response_model=StatusCode, summary="Get a status code.")
 async def get_status(code: int):
     """
     Get status code by code.
@@ -80,7 +80,7 @@ async def get_status(code: int):
     return custom_make_response(content, code=int(code))
 
 
-@app.get("/{any}/{path}", include_in_schema=False)
+@app.get("/fastapi/{any}/{path}", include_in_schema=False)
 async def invalid_code():
     """
     Invalid code.
