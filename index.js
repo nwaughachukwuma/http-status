@@ -3,7 +3,6 @@ const path = require("node:path");
 
 const server = jsonServer.create();
 const router = jsonServer.router(path.join(__dirname, "db.json"));
-// const router = jsonServer.router(require("../db.json"));
 const middleware = jsonServer.defaults({
   readOnly: true,
 });
@@ -15,6 +14,9 @@ server.use(middleware);
 /** @type {jsonServer.JsonServerRouter} */
 router.render = (req, res) => {
   const code = req.path.match(/^\/(\d+)/)?.[1];
+
+  // add a cache header of 7 days
+  res.set("Cache-Control", "public, max-age=604800, immutable");
 
   if (!code) {
     res.status(400).jsonp("Bad Request. Use '/{status_code}'");
