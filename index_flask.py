@@ -2,13 +2,22 @@ import json
 import os
 import re
 
-from flask import Flask, Response, jsonify, render_template, send_file
+from flask import Flask, jsonify, make_response, render_template, send_file
 
 app = Flask(__name__, template_folder="public", static_folder="public")
 
 status_codes = {}
 with open("db.json", encoding="utf-8") as f:
     status_codes = json.load(f)
+
+
+def custom_make_response(content: str, code: str | int):
+    """
+    Custom make response.
+    """
+    response = make_response(jsonify(content), code)
+    response.headers['Cache-Control'] = 'public, max-age=604800, immutable'
+    return response
 
 @app.route("/")
 def home():
@@ -33,13 +42,12 @@ def faviconpng(size):
     return send_file(f"public/favicon-{size}.png")
 
 
-# Route to get all status codes
 @app.route("/codes")
 def get_codes():
     """
     Get all status codes.
     """
-    return jsonify(status_codes)
+    return custom_make_response(status_codes, 200)
 
 @app.route("/<int:code>")
 def get_status(code):
@@ -49,21 +57,21 @@ def get_status(code):
     code = str(code)
 
     if not re.match(r"\d{3}$", code):
-        return Response("Not Acceptable", status=406, content_type="text/plain")
+        return custom_make_response("Not Acceptable", 406)
 
     if code not in status_codes:
-        return Response("Not Implemented", status=501, content_type="text/plain")
+        return custom_make_response("Not Implemented", 501)
 
     content = status_codes[code]["code"]
-    return Response(content, status=int(code), content_type="text/plain")
+    return custom_make_response(content, int(code))
 
 
-@app.route("/<any>/<path>")
-async def invalid_code():
+@app.route("/<_any>/<_path>")
+def invalid_code(_any, _path):
     """
     Invalid code.
     """
-    return Response("Bad Request", status=400, content_type="text/plain")
+    return custom_make_response("Bad Request", 400)
 
 if __name__ == "__main__":
     PORT = os.getenv("PORT", "8080")

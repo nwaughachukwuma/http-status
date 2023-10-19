@@ -14,7 +14,16 @@ with open("db.json", encoding="utf-8") as f:
     status_codes = json.load(f)
 
 
-@app.get("/", include_in_schema=False)
+def custom_make_response(content: str, code: str | int):
+    """
+    Custom make response.
+    """
+    return JSONResponse(
+        content=content, status_code=code,
+        headers={"Cache-Control": "public, max-age=604800, immutable"}
+    )
+
+@app.get("/", include_in_schema=False, response_class=HTMLResponse)
 async def root():
     """
     Root.
@@ -23,7 +32,7 @@ async def root():
         content = content.read()
     return HTMLResponse(content=content)
 
-@app.get("/favicon.{ext}", include_in_schema=False)
+@app.get("/favicon.{ext}", include_in_schema=False, response_class=HTMLResponse)
 async def favicon(ext: str):
     """
     favicon.ico
@@ -31,7 +40,7 @@ async def favicon(ext: str):
     print(f'favicon.{ext}')
     return FileResponse("public/favicon.ico")
 
-@app.get("/favicon-{size}.png", include_in_schema=False)
+@app.get("/favicon-{size}.png", include_in_schema=False, response_class=HTMLResponse)
 async def faviconpng(size: str):
     """
     favicon-{size}.png
@@ -44,7 +53,7 @@ async def get_codes():
     """
     Get all status codes.
     """
-    return status_codes
+    return custom_make_response(status_codes, 200)
 
 
 class StatusCode(BaseModel):
@@ -61,17 +70,15 @@ async def get_status(code: int):
     code = str(code)
 
     if not re.match(r"\d{3}$", code):
-        return JSONResponse(
-            content="Not Acceptable", status_code=status.HTTP_406_NOT_ACCEPTABLE
-        )
+        return custom_make_response("Not Acceptable", code=status.HTTP_406_NOT_ACCEPTABLE)
 
     if code not in status_codes:
-        return JSONResponse(
-            content="Not Implemented", status_code=status.HTTP_501_NOT_IMPLEMENTED
+        return custom_make_response(
+            "Not Implemented", code=status.HTTP_501_NOT_IMPLEMENTED
         )
 
     content = status_codes[code]["code"]
-    return JSONResponse(content=content, status_code=int(code))
+    return custom_make_response(content, code=int(code))
 
 
 @app.get("/{any}/{path}", include_in_schema=False)
@@ -79,7 +86,7 @@ async def invalid_code():
     """
     Invalid code.
     """
-    return JSONResponse(content="Bad Request", status_code=status.HTTP_400_BAD_REQUEST)
+    return custom_make_response("Bad Request", code=status.HTTP_400_BAD_REQUEST)
 
 
 if __name__ == "__main__":
