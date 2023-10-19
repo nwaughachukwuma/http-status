@@ -32,6 +32,14 @@ server.get("/", (_req, res) => {
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
+server.get("/favicon.:ext", (_req, res) => {
+  res.sendFile(path.join(__dirname, "public/favicon.ico"));
+});
+
+server.get("/favicon-:size.png", (req, res) => {
+  res.sendFile(path.join(__dirname, `public/favicon-${req.params.size}.png`));
+});
+
 server.get("/codes", (_req, res) => res.jsonp(router.db.value()));
 server.use(router);
 server.listen(PORT, () => {

@@ -2,7 +2,7 @@ import json
 import os
 import re
 
-from flask import Flask, Response, jsonify, render_template
+from flask import Flask, Response, jsonify, render_template, send_file
 
 app = Flask(__name__, template_folder="public", static_folder="public")
 
@@ -17,12 +17,21 @@ def home():
     """
     return render_template('index.html')
 
-@app.route("/favicon.ico")
-def favicon():
+@app.route("/favicon.<ext>")
+def favicon(ext):
     """
-    Favicon.
+    favicon.ico
     """
-    return app.send_static_file("public/favicon.ico")
+    print(f'favicon.{ext}')
+    return send_file("public/favicon.ico")
+
+@app.get("/favicon-<size>.png")
+def faviconpng(size):
+    """
+    favicon-{size}.png
+    """
+    return send_file(f"public/favicon-{size}.png")
+
 
 # Route to get all status codes
 @app.route("/codes")

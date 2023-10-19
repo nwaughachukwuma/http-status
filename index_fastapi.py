@@ -19,14 +19,23 @@ async def root():
     """
     Root.
     """
-    return HTMLResponse(content=open("public/index.html", "r", encoding="utf-8").read())
+    with open("public/index.html", "r", encoding="utf-8") as content:
+        content = content.read()
+    return HTMLResponse(content=content)
 
-@app.get("/favicon.ico", include_in_schema=False)
-async def favicon():
+@app.get("/favicon.{ext}", include_in_schema=False)
+async def favicon(ext: str):
     """
-    Favicon.
+    favicon.ico
     """
-    return FileResponse("public/favicon.ico")
+    return FileResponse(f"public/favicon.{ext}")
+
+@app.get("/favicon-{size}.png", include_in_schema=False)
+async def faviconpng(size: str):
+    """
+    favicon-{size}.png
+    """
+    return FileResponse(f"public/favicon-{size}.png")
 
 
 @app.get("/codes", summary="Get all status codes.")
