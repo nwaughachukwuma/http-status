@@ -5,9 +5,11 @@ import re
 import uvicorn
 from fastapi import FastAPI, status
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 app = FastAPI(title="HTTP Status Codes", redoc_url=None)
+app.mount("/static", StaticFiles(directory="public"), name="static")
 
 status_codes = {}
 with open("db.json", encoding="utf-8") as f:
@@ -23,7 +25,6 @@ def custom_make_response(content: str, code: int):
         headers={"Cache-Control": "public, max-age=604800, immutable"}
     )
 
-# response_class=HTMLResponse
 @app.get("/", include_in_schema=False)
 async def root():
     """
@@ -31,7 +32,7 @@ async def root():
     """
     with open("public/index.html", "r", encoding="utf-8") as content:
         content = content.read()
-    return content
+    return HTMLResponse(content)
 
 @app.get("/favicon.{ext}", include_in_schema=False, response_class=HTMLResponse)
 async def favicon(ext: str):
