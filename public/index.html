@@ -15,7 +15,8 @@
         window.addEventListener('DOMContentLoaded', (event) => {
             const codesLink = document.getElementById('codesLink');
             if (codesLink && typeof window !== 'undefined') {
-                codesLink.href = window.location.origin + codesLink.getAttribute('href');
+                const href = window.location.href.replace(/\/$/, '')
+                codesLink.href = href + codesLink.getAttribute('href');
             }
         });
     </script>
