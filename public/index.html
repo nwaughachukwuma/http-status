@@ -10,6 +10,15 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const codesLink = document.getElementById('codesLink');
+            if (codesLink && typeof window !== 'undefined') {
+                codesLink.href = window.location.origin + codesLink.getAttribute('href');
+            }
+        });
+    </script>
 </head>
 <body>
     <div>
@@ -20,7 +29,7 @@
         </h4>
 
         <p>
-            Goto <a href="/codes">/codes</a> to see all status codes.
+            Goto <a href="/codes" id="codesLink">/codes</a> to see all status codes.
         </p>
 
         <h3>
